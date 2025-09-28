@@ -31,15 +31,6 @@ void draw(){
   refresh();
 }
 
-void showGrid(){
-    for (int i = 0; i < cols; i++) {
-        for (int j = 0; j < rows; j++) {
-            // show each object
-            grid[i][j].show();
-        }
-    }
-}
-
 void mousePressed() {
   //println("X is " + mouseX + " and Y is " + mouseY);
   //check each cell to see if mouse is over it
@@ -48,7 +39,6 @@ void mousePressed() {
       // check each object
       if( grid[i][j].mouseOver()){
         println("Mouse is over cell " + i + ", " + j);
-        //TODO: do something when mouse is over cell
         //store this as the current editing cell;
         currI = i;
         currJ = j;
@@ -61,13 +51,27 @@ void mousePressed() {
 }
 
 void keyPressed(){
-  //if key is between 1 and 9
+  //if key is between 1 and 9 add it to the cell being edited
   //println("Key:" + key);
+
   if( 49 <= key && key <= 57 && editing){
     grid[currI][currJ].setVal(key - 48); //convert char to int
     editing = false;
   }
 
+  if( keyCode == BACKSPACE ){
+    grid[currI][currJ].setVal(0); //undo last addition
+  }
+
+}
+
+void showGrid(){
+    for (int i = 0; i < cols; i++) {
+        for (int j = 0; j < rows; j++) {
+            // show each object
+            grid[i][j].show();
+        }
+    }
 }
 
 void refresh(){
