@@ -1,4 +1,4 @@
-class Cell {
+class Cell1 {
   //member vars
   int val = 0;   // the value 0-9 of the cell
 
@@ -33,17 +33,12 @@ class Cell {
 
   }
 
-
-
-
-
+  void show(){}
 
   void setVal(int Val) {
     val = Val;
   }
 }
-
-
 
 int getRow(int index){
   for(int i = 1; i <= 9; i++){
