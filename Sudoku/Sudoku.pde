@@ -21,6 +21,7 @@ void setup() {
       grid[i][j] = new Cell(i, j);
     }
   }
+  
 }
 
 void draw(){
@@ -38,9 +39,19 @@ void showGrid(){
 }
 
 void mousePressed() {
-  println("X is " + mouseX + " and Y is " + mouseY);
-  //cell 1 is 60,60 to 140,140
-  //cell 2 is 160,60 to 240,140
+  //println("X is " + mouseX + " and Y is " + mouseY);
+  //check each cell to see if mouse is over it
+  for (int i = 0; i < cols; i++) {
+    for (int j = 0; j < rows; j++) {
+      // check each object
+      if( grid[i][j].mouseOver()){
+        println("Mouse is over cell " + i + ", " + j);
+        //TODO: do something when mouse is over cell
+        i = cols; //break out of both loops
+        j = rows;
+      }
+    }
+  }
 }
 
 void refresh(){
