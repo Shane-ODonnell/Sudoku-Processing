@@ -18,7 +18,6 @@ class Cell {
   }
 
   void show(){
-    //TODO: Display the value of the cell if it is not 0
     if(val != 0){
       fill(0);
       textAlign(CENTER, CENTER);

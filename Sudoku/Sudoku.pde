@@ -51,9 +51,8 @@ void mousePressed() {
 }
 
 void keyPressed(){
-  //if key is between 1 and 9 add it to the cell being edited
-  //println("Key:" + key);
 
+  //if key is between 1 and 9 add it to the cell being edited
   if( 49 <= key && key <= 57 && editing){
     grid[currI][currJ].setVal(key - 48); //convert char to int
     editing = false;
@@ -62,7 +61,7 @@ void keyPressed(){
   if( keyCode == BACKSPACE ){
     grid[currI][currJ].setVal(0); //undo last addition
   }
-
+  
 }
 
 void showGrid(){
