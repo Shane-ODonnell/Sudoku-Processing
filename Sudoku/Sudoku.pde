@@ -2,6 +2,8 @@
 
 int rows = 9;
 int cols = 9;
+int currI, currJ;
+boolean editing = false;
 
 PImage background;
 
@@ -47,11 +49,25 @@ void mousePressed() {
       if( grid[i][j].mouseOver()){
         println("Mouse is over cell " + i + ", " + j);
         //TODO: do something when mouse is over cell
+        //store this as the current editing cell;
+        currI = i;
+        currJ = j;
+        editing = true;
         i = cols; //break out of both loops
         j = rows;
       }
     }
   }
+}
+
+void keyPressed(){
+  //if key is between 1 and 9
+  //println("Key:" + key);
+  if( 49 <= key && key <= 57 && editing){
+    grid[currI][currJ].setVal(key - 48); //convert char to int
+    editing = false;
+  }
+
 }
 
 void refresh(){
