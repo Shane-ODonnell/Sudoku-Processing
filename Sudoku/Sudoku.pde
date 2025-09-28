@@ -11,7 +11,7 @@ Cell[][] grid; //stores the value of every cell in the puzzle
 void setup() {
   size(1000,1000);
   background = loadImage("Sudoku-Board.png");
-  refresh();
+  image(background, 0, 0, width, height);
 
   grid = new Cell[cols][rows];
 
@@ -25,7 +25,7 @@ void setup() {
 
 void draw(){
   //LOOP
-
+  refresh();
 }
 
 void showGrid(){
@@ -36,6 +36,7 @@ void showGrid(){
         }
     }
 }
+
 void mousePressed() {
   println("X is " + mouseX + " and Y is " + mouseY);
   //cell 1 is 60,60 to 140,140
@@ -44,5 +45,5 @@ void mousePressed() {
 
 void refresh(){
   image(background, 0, 0, width, height);
-  //showGrid();
+  showGrid();
 }
