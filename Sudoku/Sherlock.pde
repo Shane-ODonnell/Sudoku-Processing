@@ -44,6 +44,8 @@ void singles(){
 
             }//close for (jt)
 
+            //add searchGrid functionality here
+
             if( numOptions == 1){
                 //if there is only one option left, fill it in
                 for( int k = 0; k < options.length; k++){
@@ -62,4 +64,33 @@ void singles(){
     }//close for (i)
 
 
+}
+
+int getBox(int i, int j){
+    //return number 1-9 depending on which box the cell (i,j) is in
+    if( i < 3){
+        if (j < 3)
+            return 1;
+        if( j < 6)
+            return 4;
+        else 
+            return 7;
+    }
+    if( i < 6){
+        if (j < 3)
+            return 2;
+        if( j < 6) 
+            return 5;
+        else 
+            return 8;
+    }
+    else {
+        if (j < 3)
+            return 3;
+        if (j < 6)
+            return 6;
+        else
+            return 9;
+    }
+    
 }

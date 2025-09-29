@@ -44,7 +44,9 @@ void mousePressed() {
     for (int j = 0; j < rows; j++) {
       // check each object
       if( grid[i][j].mouseOver()){
-        println("Mouse is over cell " + i + ", " + j);
+        //println("Mouse is over cell " + i + ", " + j);
+        int box = getBox(i,j);
+        println( "Cell is in box:  " + box);
         //store this as the current editing cell;
         currI = i;
         currJ = j;
