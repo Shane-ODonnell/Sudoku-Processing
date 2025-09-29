@@ -32,7 +32,7 @@ void draw(){
 
   if(keyPressed && key == 's'){
     println("keypressed s");
-    Singles();
+    singles();
   }
  
 }
