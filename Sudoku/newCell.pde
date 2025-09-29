@@ -1,7 +1,7 @@
 class Cell {
   //Cell class compatible with 2D array
 
-  int val = 0;
+  int value = 0;
   int x, y; //coords for top left corner of cell
   int w;    // width of cell
 
@@ -14,15 +14,15 @@ class Cell {
   }
 
   void setVal(int Val){
-    val = Val;
+    value = Val;
   }
 
   void show(){
-    if(val != 0){
+    if(value != 0){
       fill(0);
       textAlign(CENTER, CENTER);
       textSize(50);
-      text(val, x + w/2, y + w/2);
+      text(value, x + w/2, y + w/2);
     }
   }
 
@@ -32,6 +32,10 @@ class Cell {
       if(y <= mouseY && mouseY <= (y+w))
         return true;
     return false;
+  }
+
+  int val(){
+    return value;
   }
 
 }// close class Cell

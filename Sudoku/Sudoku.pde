@@ -29,6 +29,12 @@ void setup() {
 void draw(){
   //LOOP
   refresh();
+
+  if(keyPressed && key == 's'){
+    println("keypressed s");
+    Singles();
+  }
+ 
 }
 
 void mousePressed() {
