@@ -84,6 +84,8 @@ void Singles(){
                         grid[i][j].setVal(options[k]);
                         // now this column is solved
                         k = options.length; // break out of this loop
+                        j = cols;
+                        i = -1; // start from square one again 
                     }
                 }
             }//close if numOptions
