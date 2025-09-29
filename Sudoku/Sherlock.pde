@@ -13,11 +13,11 @@ void singles(){
             //iterate through every cell
             //for every cell check the sorrounding grid, and the column and row in question
             // narrow down if there is only one thing it could be
-            //TODO: add searchGrid functionality
-
+            
             int[] options = options(); //initialize a tally of numbers 1- 9
             int numOptions = 9; //number of options remaining
 
+            //check the whole row for numbers
             for(int it = 0; it < rows; it++){
                 int val = grid[it][j].val();
 
@@ -30,7 +30,8 @@ void singles(){
                 }//close if 
 
             }//close for (it)
-            
+
+            //check the whole column for numbers
             for(int jt = 0; jt < cols; jt++){
                 int val = grid[i][jt].val();
 
@@ -44,7 +45,29 @@ void singles(){
 
             }//close for (jt)
 
-            //add searchGrid functionality here
+            // searchGrid functionality here
+            int currBox = getBox(i,j);
+            int checked = 9;
+            
+            for(int it = 0; it < rows; it++){
+                for(int jt = 0; jt < cols; jt++){
+                    if( currBox == getBox(it,jt) ){
+                        checked--;
+                        int val = grid[it][jt].val();
+                        if( val != 0 ){
+                            //remove val from options array
+                            if(options[val - 1] != 0){
+                            options[val-1] = 0;
+                                numOptions--;
+                            }
+                        }//close if 
+                        if(checked == 0){
+                         it = rows;
+                         jt = cols; // break loop to save time
+                        }
+                    }
+                }
+            }
 
             if( numOptions == 1){
                 //if there is only one option left, fill it in
@@ -64,7 +87,7 @@ void singles(){
     }//close for (i)
 
 
-}
+}// close singles fx
 
 int getBox(int i, int j){
     //return number 1-9 depending on which box the cell (i,j) is in
