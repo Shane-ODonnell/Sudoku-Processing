@@ -23,6 +23,8 @@ void setup() {
       grid[i][j] = new Cell(i, j);
     }
   }
+
+  gridTest1();
   
 }
 
@@ -84,4 +86,32 @@ void showGrid(){
 void refresh(){
   image(background, 0, 0, width, height);
   showGrid();
+}
+
+
+void gridTest1(){
+  //let grid equal to a presaved puzzle for testing
+  int[][] Test = { 
+  { 0, 0, 6, 2, 5, 0, 1, 0, 0 },
+  { 5, 1, 9, 6, 0, 7, 0, 2, 0 },
+  { 7, 2, 4, 9, 0, 0, 5, 8, 6 },
+  { 6, 5, 0, 0, 0, 1, 0, 3, 7 },
+  { 9, 0, 3, 7, 2, 0, 0, 0, 0 },
+  { 0, 7, 0, 0, 4, 0, 0, 0, 0 },
+  { 2, 0, 0, 0, 0, 0, 0, 0, 8 },
+  { 0, 6, 0, 5, 3, 0, 0, 9, 1 },
+  { 8, 0, 0, 1, 6, 0, 0, 0, 3 }
+  };
+  
+  setGrid(Test);
+
+}
+
+void setGrid(int [][] array){
+  for (int i = 0; i < cols; i++) {
+    for (int j = 0; j < rows; j++) {
+      // Initialize each object
+      grid[i][j].setVal(array[j][i]);
+    }
+  }
 }
