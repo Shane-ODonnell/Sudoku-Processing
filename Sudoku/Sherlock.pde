@@ -1,10 +1,5 @@
 //this is Sherlock, a sudoku solving machine 
 
-int[] options(){
-    int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-    return numbers;
-}
-
 void singles(){
     for(int i = 0; i < rows; i++){
         for (int j = 0; j < cols; j++){
@@ -12,59 +7,13 @@ void singles(){
             //for every cell check the sorrounding grid, and the column and row in question
             // narrow down if there is only one thing it could be
             
-            int[] options = options(); //initialize a tally of numbers 1- 9
-            int numOptions = 9; //number of options remaining
+            int[] options = options(i,j); //initialize a tally of numbers 1- 9
+            int numOptions = 0;
 
-            //check the whole row for numbers
-            for(int it = 0; it < rows; it++){
-                int val = grid[it][j].val();
-
-                if( val != 0 ){
-                    //remove val from options array
-                    if(options[val - 1] != 0){
-                        options[val-1] = 0;
-                        numOptions--;
-                    }
-                }//close if 
-
-            }//close for (it)
-
-            //check the whole column for numbers
-            for(int jt = 0; jt < cols; jt++){
-                int val = grid[i][jt].val();
-
-                if( val != 0 ){
-                    //remove val from options array
-                    if(options[val - 1] != 0){
-                        options[val-1] = 0;
-                        numOptions--;
-                    }
-                }//close if 
-
-            }//close for (jt)
-
-            // searchGrid functionality here
-            int currBox = getBox(i,j);
-            int checked = 9;
-            
-            for(int it = 0; it < rows; it++){
-                for(int jt = 0; jt < cols; jt++){
-                    if( currBox == getBox(it,jt) ){
-                        checked--;
-                        int val = grid[it][jt].val();
-                        if( val != 0 ){
-                            //remove val from options array
-                            if(options[val - 1] != 0){
-                            options[val-1] = 0;
-                                numOptions--;
-                            }
-                        }//close if 
-                        if(checked == 0){
-                         it = rows;
-                         jt = cols; // break loop to save time
-                        }
-                    }
-                }
+            for(int it = 0; it < options.length; it++){
+                if(options[it] != 0)
+                    numOptions++;
+                //
             }
 
             if( numOptions == 1){
@@ -193,4 +142,64 @@ int instances(int val){
     }//close for loop (i)
 
     return count;
+}
+
+int[] options(int i, int j){
+    //return the possible options for a given cell
+    int[] options = { 1, 2, 3, 4, 5, 6, 7, 8, 9 }; //initialize a tally of numbers 1- 9
+    int numOptions = 9; //number of options remaining
+
+    //check the whole row for numbers
+    for(int it = 0; it < rows; it++){
+        int val = grid[it][j].val();
+
+        if( val != 0 ){
+            //remove val from options array
+            if(options[val - 1] != 0){
+                options[val-1] = 0;
+                numOptions--;
+            }
+        }//close if 
+
+    }//close for (it)
+
+    //check the whole column for numbers
+    for(int jt = 0; jt < cols; jt++){
+        int val = grid[i][jt].val();
+
+        if( val != 0 ){
+            //remove val from options array
+            if(options[val - 1] != 0){
+                options[val-1] = 0;
+                numOptions--;
+            }
+        }//close if 
+
+    }//close for (jt)
+
+    // searchGrid functionality here
+    int currBox = getBox(i,j);
+    int checked = 9;
+    
+    for(int it = 0; it < rows; it++){
+        for(int jt = 0; jt < cols; jt++){
+            if( currBox == getBox(it,jt) ){
+                checked--;
+                int val = grid[it][jt].val();
+                if( val != 0 ){
+                    //remove val from options array
+                    if(options[val - 1] != 0){
+                        options[val-1] = 0;
+                        numOptions--;
+                    }
+                }//close if 
+                if(checked == 0){
+                    it = rows;
+                    jt = cols; // break loop to save time
+                }
+            }
+        }
+    }
+
+    return options;
 }
