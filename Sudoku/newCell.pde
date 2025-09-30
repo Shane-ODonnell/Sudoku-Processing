@@ -4,6 +4,7 @@ class Cell {
   int value = 0;
   int x, y; //coords for top left corner of cell
   int w;    // width of cell
+  boolean given = false;
 
   //Cell constructor
   Cell(int i, int j){
@@ -17,9 +18,18 @@ class Cell {
     value = Val;
   }
 
+  void setDefault(){
+    given = true;
+  }
+
   void show(){
     if(value != 0){
+
+      fill( 0, 0, 255);
+
+      if(given)
       fill(0);
+      
       textAlign(CENTER, CENTER);
       textSize(50);
       text(value, x + w/2, y + w/2);

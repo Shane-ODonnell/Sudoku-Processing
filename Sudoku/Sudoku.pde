@@ -35,6 +35,14 @@ void draw(){
   if(keyPressed && key == 's'){
     println("keypressed s");
     singles();
+    /*
+      while(hiddenSingles())
+        singles();
+    //*/
+  }
+  if(keyPressed && key == 'h'){
+    println("keypressed h");
+    hiddenSingles();
   }
  
 }
@@ -155,6 +163,8 @@ void setGrid(int [][] array){
     for (int j = 0; j < rows; j++) {
       // Initialize each object
       grid[i][j].setVal(array[j][i]);
+      if( array[j][i] != 0)
+       grid[i][j].setDefault();
     }
   }
 }
