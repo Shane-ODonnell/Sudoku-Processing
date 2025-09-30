@@ -5,6 +5,7 @@ class Cell {
   int x, y; //coords for top left corner of cell
   int w;    // width of cell
   boolean given = false;
+  boolean editing = false;
 
   //Cell constructor
   Cell(int i, int j){
@@ -23,7 +24,7 @@ class Cell {
   }
 
   void show(){
-    if(mouseOver()){
+    if(mouseOver() || editing){
       fill(200);
       rect(x,y,w,w);
     }

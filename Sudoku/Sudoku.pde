@@ -24,7 +24,7 @@ void setup() {
     }
   }
 
-  gridTest3();
+  gridTest1();
   
 }
 
@@ -58,9 +58,11 @@ void mousePressed() {
         int box = getBox(i,j);
         println( "Cell is in box:  " + box);
         //store this as the current editing cell;
+        grid[currI][currJ].editing = false;
         currI = i;
         currJ = j;
         editing = true;
+        grid[i][j].editing = true;
         i = cols; //break out of both loops
         j = rows;
       }
@@ -74,6 +76,7 @@ void keyPressed(){
   if( 49 <= key && key <= 57 && editing){
     grid[currI][currJ].setVal(key - 48); //convert char to int
     editing = false;
+    grid[currI][currJ].editing = false;
   }
 
   if( keyCode == BACKSPACE ){
