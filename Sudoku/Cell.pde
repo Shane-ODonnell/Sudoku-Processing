@@ -23,6 +23,10 @@ class Cell {
   }
 
   void show(){
+    if(mouseOver()){
+      fill(200);
+      rect(x,y,w,w);
+    }
     if(value != 0){
 
       fill( 0, 0, 255);
