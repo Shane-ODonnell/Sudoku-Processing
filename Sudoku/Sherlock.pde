@@ -101,7 +101,6 @@ boolean hiddenSingles(){
     return false;
 }
 
-
 int getBox(int i, int j){
     //return number 1-9 depending on which box the cell (i,j) is in
     if( i < 3){
@@ -202,4 +201,59 @@ int[] options(int i, int j){
     }
 
     return options;
+}
+
+void hiddenSinglesTest(){
+    //check every row colm and grid. 
+    //check the options array of each of the cells in those categories
+    //if a given number only appears once, fill it in.
+
+    for(int i = 0; i < rows; i++){
+        for (int j = 0; j < cols; j++){
+            //iterate through the cells.
+            if( grid[i][j].val() == 0){ //TODO idk if this is meant to be for empty or ! Cells
+                for(int k = 1; k <= 9; k++){ //we want to check if each possible value is only able to go in one place
+                    int occurances = 0; 
+                    boolean NA = false;
+                    // we want tok count how many of the rows options arrays feature this value k
+                    //check the sorrounding row
+                    for (int it = 0; it < rows; it++){
+                        int val = grid[it][j].val();
+                        if(val == k){
+                            //if one of the cells in the row is equal to the k we are looking to add
+                            //then we dont need to add it 
+                            NA = true;//break loop
+                            it = rows;
+                        }
+                        //from here k is a valid target 
+                        if( val == 0 ){//if the cell is empty 
+                            int[] Options = options(it,j);
+
+                            if(within(k, Options)){
+                                occurances++;
+                            }//close if
+
+                            if(occurances > 1){
+                                break; //break loop
+                            }
+
+                        }//close if 
+                    }//close for (it)
+                    if(NA) break;
+
+
+                }//close for (k)
+            }//close if
+        }//close for (j)
+    }//close for (i)
+}
+
+boolean within(int val, int [] array){
+    //return true if val exists in the array
+    for(int i = 0; i < 9; i++){
+        if(array[i] == val){
+            return true;
+        }
+    }
+    return false;
 }
