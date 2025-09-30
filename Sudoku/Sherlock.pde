@@ -1,11 +1,9 @@
 //this is Sherlock, a sudoku solving machine 
 
-
 int[] options(){
     int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
     return numbers;
 }
-
 
 void singles(){
     for(int i = 0; i < rows; i++){
@@ -89,6 +87,72 @@ void singles(){
 
 }// close singles fx
 
+boolean hiddenSingles(){
+    /*
+        //singles finds the one value that can fit in a given cell
+        //hiddenSingles is going to find the only value that can go there
+        //that is to say that it will look at filling in the puzzle by narrowing down which cell is 
+        // the only cell remaining that could contain a needed value
+    //*/
+
+    //if a given value is already present in the puzzle 8 times then we can narrow down where the last 
+    //instance of that value needs to be
+    for(int k = 1; k <= 9; k++){
+        //iterate through the puzzle and count how often a value is present
+        if(instances(k) == 8 ){
+            // there is only one instance of k missing from the puzzle
+            //lets narrow down which rows and cols dont need a k
+            //find the row that doesnt have a k
+
+            int i,j;
+            i = -1; //initialize to prevent error
+
+            for( int it = 0; it < rows; it++){
+                boolean foundK = false;
+
+                for( int jt = 0; jt < cols; jt++){
+                 if( grid[it][jt].val() == k){
+                        foundK = true;
+                        jt = cols;//break loop
+                    }
+                }
+
+                if( !foundK ){
+                    //this is the row that is missing k
+                    i = it;
+                    it = rows; // break loop
+                }
+
+            }// the row (i) that needs a k is found 
+
+            for( int jt = 0; jt < cols; jt++){
+                boolean foundK = false;
+
+                for( int it = 0; it < rows; it++){
+                 if( grid[it][jt].val() == k){
+                        foundK = true;
+                        it = cols;
+                    }
+                }
+
+                if(!foundK){
+                    //this is the colm that is missing k
+                    j = jt;         
+
+                    grid[i][j].setVal(k);
+                    return true; //this means we made an addition
+                }
+
+            }// the col (j) that needs a k is found 
+            
+            //finally we have the only cell that can house the last k
+
+        }
+    }
+    return false;
+}
+
+
 int getBox(int i, int j){
     //return number 1-9 depending on which box the cell (i,j) is in
     if( i < 3){
@@ -116,4 +180,17 @@ int getBox(int i, int j){
             return 9;
     }
     
+}
+
+int instances(int val){
+    //iterate through the puzzle and count how often a value is present
+    int count = 0;
+    for(int i = 0; i < rows; i++){
+        for( int j = 0; j < cols; j++){
+            if( grid[i][j].val() == val)
+                count++;
+        }//close for loop (j)
+    }//close for loop (i)
+
+    return count;
 }
