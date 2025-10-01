@@ -262,6 +262,11 @@ void finishGrid(){
     }//close for (k)
 }
 
+void finishRow(){
+    //same idea as finishGrid(). but instead of looking at the other cells in the box look at the row
+    //TODO
+}
+
 boolean within(int val, int [] array){
     //return true if val exists in the array
     for(int i = 0; i < array.length; i++){
