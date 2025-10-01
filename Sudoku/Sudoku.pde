@@ -55,6 +55,10 @@ void draw(){
     println("keypressed ö: restarting");
     setup();
   }
+  if(keyPressed && key == 'S'){
+    println("keypressed S: running sherlock");
+    sherlock();
+  }
  
 }
 
