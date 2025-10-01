@@ -179,8 +179,8 @@ void gridTest3(){
 
 void gridTest4(){
   //let grid equal to a presaved puzzle for testing
-  //Test 3 was taken from https://sudoku.com/hard/
-  //passed successfully using finishGrid()
+  //Test 4 was taken from https://sudoku.com/expert/
+  //passed successfully using finishGrid() + finishRow() in sherlock()
 
   int[][] Test = { 
   { 0, 5, 0, 4, 9, 0, 6, 0, 7 },
@@ -193,8 +193,22 @@ void gridTest4(){
   { 2, 7, 0, 6, 0, 3, 0, 0, 0 },
   { 0, 6, 0, 0, 0, 0, 7, 1, 0 }
   };
+
+  int[][] Test2 = { 
+  { 0, 0, 0, 3, 0, 0, 0, 5, 0 },
+  { 5, 0, 0, 8, 7, 0, 4, 0, 0 },
+  { 0, 8, 6, 0, 5, 1, 0, 9, 0 },
+  { 0, 0, 5, 0, 0, 0, 0, 0, 0 },
+  { 7, 2, 8, 5, 9, 4, 0, 0, 0 },
+  { 0, 0, 4, 0, 0, 0, 5, 0, 9 },
+  { 0, 0, 0, 2, 0, 8, 7, 6, 0 },
+  { 8, 0, 2, 6, 3, 0, 0, 0, 0 },
+  { 4, 6, 0, 0, 0, 0, 0, 8, 0 }
+  };
   
-  setGrid(Test);
+  //test2 passed succesfully using finishGrid() + finishRow() in sherlock()
+
+  setGrid(Test2);
 
 }
 
