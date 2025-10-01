@@ -24,7 +24,7 @@ void setup() {
     }
   }
 
-  gridTest1();
+  gridTest3();
   
 }
 
@@ -40,9 +40,20 @@ void draw(){
         singles();
     //*/
   }
+
   if(keyPressed && key == 'h'){
     println("keypressed h");
     hiddenSingles();
+  }
+
+  if(keyPressed && key == 'g'){
+    println("keypressed g");
+    finishGrid();
+  }
+
+  if(keyPressed && key == 'ö'){
+    println("keypressed ö: restarting");
+    setup();
   }
  
 }

@@ -147,57 +147,62 @@ int[] options(int i, int j){
     //return the possible options for a given cell
     int[] options = { 1, 2, 3, 4, 5, 6, 7, 8, 9 }; //initialize a tally of numbers 1- 9
     int numOptions = 9; //number of options remaining
+    if(grid[i][j].val() == 0){
+        //check the whole row for numbers
+        for(int it = 0; it < rows; it++){
+            int val = grid[it][j].val();
 
-    //check the whole row for numbers
-    for(int it = 0; it < rows; it++){
-        int val = grid[it][j].val();
+            if( val != 0 ){
+                //remove val from options array
+                if(options[val - 1] != 0){
+                    options[val-1] = 0;
+                    numOptions--;
+                }
+            }//close if 
 
-        if( val != 0 ){
-            //remove val from options array
-            if(options[val - 1] != 0){
-                options[val-1] = 0;
-                numOptions--;
-            }
-        }//close if 
+        }//close for (it)
 
-    }//close for (it)
-
-    //check the whole column for numbers
-    for(int jt = 0; jt < cols; jt++){
-        int val = grid[i][jt].val();
-
-        if( val != 0 ){
-            //remove val from options array
-            if(options[val - 1] != 0){
-                options[val-1] = 0;
-                numOptions--;
-            }
-        }//close if 
-
-    }//close for (jt)
-
-    // searchGrid functionality here
-    int currBox = getBox(i,j);
-    int checked = 9;
-    
-    for(int it = 0; it < rows; it++){
+        //check the whole column for numbers
         for(int jt = 0; jt < cols; jt++){
-            if( currBox == getBox(it,jt) ){
-                checked--;
-                int val = grid[it][jt].val();
-                if( val != 0 ){
-                    //remove val from options array
-                    if(options[val - 1] != 0){
-                        options[val-1] = 0;
-                        numOptions--;
+            int val = grid[i][jt].val();
+
+            if( val != 0 ){
+                //remove val from options array
+                if(options[val - 1] != 0){
+                    options[val-1] = 0;
+                    numOptions--;
+                }
+            }//close if 
+
+        }//close for (jt)
+
+        // searchGrid functionality here
+        int currBox = getBox(i,j);
+        int checked = 9;
+        
+        for(int it = 0; it < rows; it++){
+            for(int jt = 0; jt < cols; jt++){
+                if( currBox == getBox(it,jt) ){
+                    checked--;
+                    int val = grid[it][jt].val();
+                    if( val != 0 ){
+                        //remove val from options array
+                        if(options[val - 1] != 0){
+                            options[val-1] = 0;
+                            numOptions--;
+                        }
+                    }//close if 
+                    if(checked == 0){
+                        it = rows;
+                        jt = cols; // break loop to save time
                     }
-                }//close if 
-                if(checked == 0){
-                    it = rows;
-                    jt = cols; // break loop to save time
                 }
             }
         }
+    }
+    else {
+     int [] zero = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+     return zero;
     }
 
     return options;
@@ -248,12 +253,77 @@ void hiddenSinglesTest(){
     }//close for (i)
 }
 
+void finishGrid(){
+    for(int k = 1; k <= 9; k++){//go thru all the boxes/grids
+        int [] occurances = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        boolean updated = false;
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                //iterate through every cell
+                if(getBox(i,j) == k){
+                    if( grid[i][j].val() == 0){//if cell is empty 
+                        int [] options = options(i,j); // look at which values are able to go in this cell
+                        //i need to see if this is the only cell in the grid with a given option
+                        //check if other cells in the grid have a given option
+                        //use occurances array to count how many times any value appears as an option per box
+                        //then if any single value in occurances == 1,
+                        //go back through the grid and find where that is 
+                        // fill in that cell 
+                        for(int m = 1; m <= 9; m++){
+                            if(within(m, options)){
+                                occurances[m-1]++;
+                            }
+                        }
+                    }
+                }//iterate through the idividual cells of grid k
+            }//close for (j)
+        }//close for (i)
+
+        //now we have the occurances array which tells us how many times each value appears in an one of the 9 options arrays for a grid
+        if(within(1, occurances)){
+            //if there is a value that can only go in one cell of the box
+            //find that value and add it in.
+            int target = getIndex(1, occurances);
+            target++; // convert index to the needed value 
+
+            //search which cell has temp as an option
+            for(int i = 0; i < rows; i++){
+                for(int j = 0; j<cols; j++){
+                    if(getBox(i,j) == k){
+                        if(within(target, options(i,j))){
+                            grid[i][j].setVal(target);
+                            updated = true;
+                            //break loop
+                            j = cols;
+                            i = rows;
+                        }
+                    }
+                }//close for (j)
+            }//close for (i)
+        }
+        if(updated){
+            k = -1; //start over
+        }
+    }//close for (k)
+}
+
 boolean within(int val, int [] array){
     //return true if val exists in the array
-    for(int i = 0; i < 9; i++){
+    for(int i = 0; i < array.length; i++){
         if(array[i] == val){
             return true;
         }
     }
     return false;
+}
+
+int getIndex(int val, int [] array){
+    //return location of val where/if exists in the array
+    for(int i = 0; i < array.length; i++){
+        if(array[i] == val){
+            return i;
+        }
+    }
+    
+    return -1; //if val doesnt exist in the array
 }
