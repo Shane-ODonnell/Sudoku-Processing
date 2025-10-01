@@ -208,51 +208,6 @@ int[] options(int i, int j){
     return options;
 }
 
-void hiddenSinglesTest(){
-    //check every row colm and grid. 
-    //check the options array of each of the cells in those categories
-    //if a given number only appears once, fill it in.
-
-    for(int i = 0; i < rows; i++){
-        for (int j = 0; j < cols; j++){
-            //iterate through the cells.
-            if( grid[i][j].val() == 0){ //TODO idk if this is meant to be for empty or ! Cells
-                for(int k = 1; k <= 9; k++){ //we want to check if each possible value is only able to go in one place
-                    int occurances = 0; 
-                    boolean NA = false;
-                    // we want tok count how many of the rows options arrays feature this value k
-                    //check the sorrounding row
-                    for (int it = 0; it < rows; it++){
-                        int val = grid[it][j].val();
-                        if(val == k){
-                            //if one of the cells in the row is equal to the k we are looking to add
-                            //then we dont need to add it 
-                            NA = true;//break loop
-                            it = rows;
-                        }
-                        //from here k is a valid target 
-                        if( val == 0 ){//if the cell is empty 
-                            int[] Options = options(it,j);
-
-                            if(within(k, Options)){
-                                occurances++;
-                            }//close if
-
-                            if(occurances > 1){
-                                break; //break loop
-                            }
-
-                        }//close if 
-                    }//close for (it)
-                    if(NA) break;
-
-
-                }//close for (k)
-            }//close if
-        }//close for (j)
-    }//close for (i)
-}
-
 void finishGrid(){
     for(int k = 1; k <= 9; k++){//go thru all the boxes/grids
         int [] occurances = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
