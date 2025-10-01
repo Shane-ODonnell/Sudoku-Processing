@@ -228,6 +228,7 @@ int[] options(int i, int j){
 
 void finishGrid(){
     finishRow();
+    finishCol();
     for(int k = 1; k <= 9; k++){//go thru all the boxes/grids
         int [] occurances = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         boolean updated = false;
@@ -324,6 +325,52 @@ void finishRow(){
         }
         if(updated){
             i = -1; //start over
+        }
+    }//close for (i)
+}
+void finishCol(){
+    //same idea as finishGrid(). but instead of looking at the other cells in the box look at the row
+    //TODO
+    for(int j = 0; j < cols; j++){
+        int [] occurances = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        boolean updated = false;
+        for(int i = 0; i < rows; i++){
+            //iterate through every cell
+            if( grid[i][j].val() == 0){//if cell is empty 
+                int [] options = options(i,j); // look at which values are able to go in this cell
+                //i need to see if this is the only cell in the grid with a given option
+                //check if other cells in the grid have a given option
+                //use occurances array to count how many times any value appears as an option per box
+                //then if any single value in occurances == 1,
+                //go back through the grid and find where that is 
+                // fill in that cell 
+                for(int m = 1; m <= 9; m++){
+                    if(within(m, options)){
+                        occurances[m-1]++;
+                    }
+                }
+            }
+        }//close for (j)
+
+        //now we have the occurances array which tells us how many times each value appears in an one of the 9 options arrays for a grid
+        if(within(1, occurances)){
+            //if there is a value that can only go in one cell of the box
+            //find that value and add it in.
+            int target = getIndex(1, occurances);
+            target++; // convert index to the needed value 
+
+            //search which cell has temp as an option
+            for(int i = 0; i < rows; i++){
+                if(within(target, options(i,j))){
+                    grid[i][j].setVal(target);
+                    updated = true;
+                    //break loop
+                    i = rows;
+                }
+            }//close for (j)
+        }
+        if(updated){
+            j = -1; //start over
         }
     }//close for (i)
 }
