@@ -24,7 +24,7 @@ void setup() {
     }
   }
 
-  gridTest3();
+  gridTest4();
   
 }
 
@@ -154,7 +154,7 @@ void gridTest2(){
 void gridTest3(){
   //let grid equal to a presaved puzzle for testing
   //Test 3 was taken from https://sudoku.com/hard/
-  
+  //passed successfully using finishGrid()
 
   int[][] Test = { 
   { 9, 0, 2, 0, 6, 3, 0, 8, 0 },
@@ -166,6 +166,28 @@ void gridTest3(){
   { 0, 0, 8, 0, 0, 0, 5, 0, 0 },
   { 0, 2, 0, 0, 0, 0, 0, 4, 0 },
   { 3, 0, 1, 5, 0, 9, 0, 0, 0 }
+  };
+  
+  setGrid(Test);
+
+}
+
+
+void gridTest4(){
+  //let grid equal to a presaved puzzle for testing
+  //Test 3 was taken from https://sudoku.com/hard/
+  //passed successfully using finishGrid()
+
+  int[][] Test = { 
+  { 0, 5, 0, 4, 9, 0, 6, 0, 7 },
+  { 1, 0, 0, 0, 2, 6, 0, 9, 0 },
+  { 0, 9, 0, 0, 0, 8, 0, 0, 0 },
+  { 0, 0, 0, 1, 5, 9, 3, 2, 6 },
+  { 0, 0, 0, 0, 0, 0, 0, 0, 9 },
+  { 9, 0, 5, 0, 0, 0, 0, 0, 1 },
+  { 0, 0, 0, 0, 8, 7, 0, 6, 3 },
+  { 2, 7, 0, 6, 0, 3, 0, 0, 0 },
+  { 0, 6, 0, 0, 0, 0, 7, 1, 0 }
   };
   
   setGrid(Test);
