@@ -375,6 +375,179 @@ void finishCol(){
     }//close for (i)
 }
 
+void dualPairs(){
+    //iterate through all cells
+    //check options for current cell. if count == 2
+    //check if there is a related cell with an identical set of options
+    //if there is then remove those 2 options from the arrays of every other related cell
+
+    for(int i = 0; i < rows; i++){
+        for(int j = 0; j < cols; j++){
+
+            int [] options = options(i,j);
+            int count = notZeros(options); //how many options does this cell have 
+            boolean found = false;
+            int fi = -1, fj = -1;
+
+            if(count == 2){
+                //check if there is a related cell with an identical options array
+                //iterate through related cells
+            
+                for (int it = 0; it < rows; it++){
+                    if( it != i ){
+                        int [] curr = options(it,j);
+                        if( curr == options){
+                            //found a dual pair
+                            fi = it;
+                            fj = j;
+                            found = true;
+                            it = rows; //break loop
+                        }
+                    }
+                }//close for (it)
+            
+                if( !found ){
+                    for (int jt = 0; jt < cols; jt++){
+                        if( jt != j){
+                            int [] curr = options(i,jt);
+                            if( curr == options){
+                                //found a dual pair
+                                fi = i;
+                                fj = jt;
+                                found = true;
+                                jt = rows; //break loop
+                            }
+                        }
+                    }//close for (jt)
+                }//close if !found
+                
+                if(!found){
+                    int currBox = getBox(i,j);
+                    for(int it = 0; it < rows; it++){
+                        for(int jt = 0; jt < cols; jt++){
+                            if((it != i && j!= j) && currBox == getBox(i,j)){
+                                //iterate through the cells in the same box
+                                int [] curr = options(it,jt);
+                                if( curr == options){
+                                    //found a dual pair
+                                    fi = it;
+                                    fj = jt;
+                                    found = true;
+                                    jt = rows; //break loop
+                                    it = rows;
+                                }
+                            }
+                        }//close for (jt)
+                    }//close for (it)
+                }//close box search if !found
+
+                if(found){
+                    // now we have two related cells which each have the same 2 options (i,j) and (fi,fj)
+                    /* 
+                        let a & b be these options
+                        now we need to remove those options from the other related cells and then see if that makes the puzzle any easier
+                        since I dont actually store the options arrays this could be tricky
+                    //*/
+                    /* 
+                        Either
+                        I check related cells and see if they have two options
+                        where 1 of which is a||b
+                        then replace that cell with the option that isnt ab
+                        OR
+                            I can call this function somewhat recursively in the current options() 
+                            to aid in the elimination of false options.
+                            //gonna try the first thing first
+                    //*/
+                    //lets get a and b actually
+                    int a = -1 ,b = -1;
+
+                    for(int k = 0; k < cols; k++){
+                        if(options[k] != 0){
+                            if( a == b)
+                                a = options[k];
+                            else {
+                                b = options[k];
+                                k = cols;
+                            }
+                        }
+                    }
+                    //we now have a and b
+                    //now search related cells that arent part of the pair
+                    //if they have only two options
+                    //if either option == a || b
+                    //solve
+
+                    for(int it = 0; it < rows; it++){
+                        if( it != i && it != fi ){
+
+                            int c = 0;
+                            int jTemp = j; //first check j
+
+                            for ( int w = 1; w != 5; w++ ){
+
+                                if(w == 2){
+                                    jTemp = fj; //2nd check fj
+                                }
+
+                                int [] curr = options(it,jTemp); //same thing needs to happen for fj
+
+                                if( w <= 3 && (it != j && it != fj) ){
+                                    jTemp = i; //gonna check the cols too while im here
+                                    if( w == 4){
+                                        jTemp = fi;
+                                    }
+                                    curr = options(jTemp, it);
+                                }
+
+                                if( notZeros(curr) == 2 ){
+                                    //this cell is related to the pair and has only 2 options
+                                    if( within(a, curr) || within(b, curr) ){
+                                        //strike
+                                        
+                                        if(within(a, curr)){
+                                            // find the other value
+                                            
+                                            for(int l = 0; l < cols; l++){
+                                                if(curr[l] != 0 && curr[l] != a ){
+                                                    c = curr[l];
+                                                }
+                                            }//close for (l)
+                                                                            
+                                        }
+                                        else{
+                                            for(int l = 0; l < cols; l++){
+                                                if(curr[l] != 0 && curr[l] != b ){
+                                                    c = curr[l];
+                                                }
+                                            }//close for (l)
+                                        }
+                                    }
+                                }
+                                
+                                if(c != 0){
+                                    //now let this cell equal c
+                                    if( w < 3)
+                                        grid[it][jTemp].setVal(c); 
+                                    else
+                                        grid[jTemp][it].setVal(c); 
+                                    w = 5;
+                                    it = rows;
+                                    j = cols;
+                                    i = rows;
+                                    //break tf outta here
+                                }
+                                
+                            }//close for (w)
+                        }
+                    }//clsoe for (it)
+
+                }//close if found
+            }
+        }//close for (j)
+    }//close for (i)
+
+}//close fx
+
 boolean within(int val, int [] array){
     //return true if val exists in the array
     for(int i = 0; i < array.length; i++){
@@ -394,4 +567,17 @@ int getIndex(int val, int [] array){
     }
     
     return -1; //if val doesnt exist in the array
+}
+
+int notZeros(int [] array){
+    //how many not zero ints are in the array
+    int count = 0;
+    for(int k = 0; k < array.length; k++){
+        if(array[k] > 0){
+            count++;
+        }//close if
+    }//close for (k)
+
+    return count;
+
 }
