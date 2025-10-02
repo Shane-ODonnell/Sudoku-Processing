@@ -7,7 +7,6 @@ boolean editing = false;
 
 PImage background;
 
-
 Cell[][] grid; //stores the value of every cell in the puzzle
 
 void setup() {
@@ -114,7 +113,6 @@ void refresh(){
   showGrid();
 }
 
-
 void gridTest1(){
   //let grid equal to a presaved puzzle for testing
   //Test 1 was taken from https://sudoku.com/easy/ and was passed successfully 
@@ -176,7 +174,6 @@ void gridTest3(){
 
 }
 
-
 void gridTest4(){
   //let grid equal to a presaved puzzle for testing
   //Test 4 was taken from https://sudoku.com/expert/
@@ -215,7 +212,7 @@ void gridTest4(){
 void gridTest5(){
 
   //let grid equal to a presaved puzzle for testing
-  //Test 5 was taken from https://sudoku.com/master/
+  //Test 5 was taken from https://sudoku.com/evil/
 
   int[][] Test = { 
   { 6, 0, 0, 0, 0, 0, 8, 0, 0 },
