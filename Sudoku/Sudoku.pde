@@ -24,7 +24,7 @@ void setup() {
   }
 
   gridTest5();
-  
+  printGrid();
 }
 
 void draw(){
@@ -44,6 +44,16 @@ void draw(){
     println("keypressed h");
     hiddenSingles();
   }
+  
+  if(keyPressed && key == 'p'){
+    println("keypressed p");
+    printGrid();
+  }
+  if(keyPressed && key == 'd'){
+    println("keypressed d");
+    dualPairs();
+  }
+  
 
   if(keyPressed && key == 'g'){
     println("keypressed g");
@@ -238,4 +248,35 @@ void setGrid(int [][] array){
        grid[i][j].setDefault();
     }
   }
+}
+
+void printGrid(){
+  /* Print the puzzle state in the following format
+      
+    { 6, 0, 0, 0, 0, 0, 8, 0, 0 },
+    { 0, 0, 3, 0, 0, 0, 7, 2, 0 },
+    { 1, 0, 0, 0, 0, 6, 0, 4, 0 },
+    { 0, 8, 6, 0, 9, 7, 0, 0, 4 },
+    { 0, 0, 9, 0, 0, 2, 0, 0, 0 },
+    { 0, 0, 4, 5, 0, 8, 9, 0, 0 },
+    { 0, 0, 1, 0, 0, 5, 0, 7, 0 },
+    { 0, 0, 5, 0, 3, 4, 0, 0, 0 },
+    { 0, 0, 7, 0, 0, 0, 0, 3, 8 }
+    };
+
+  //*/
+  println();
+  for (int j = 0; j < rows; j++) {
+    print("{ ");
+    for (int i = 0; i < cols; i++) {
+      if( i != 0 && i != cols)
+        print(", ");
+      print( grid[i][j].val());
+    }
+    print(" }");
+    if( j != rows-1 )
+      println(",");
+    else println();
+  }
+  println("};");
 }
