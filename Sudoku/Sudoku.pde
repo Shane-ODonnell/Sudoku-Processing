@@ -23,7 +23,7 @@ void setup() {
     }
   }
 
-  gridTest5();
+  gridTest4();
   printGrid();
 }
 
@@ -44,7 +44,7 @@ void draw(){
     println("keypressed h");
     hiddenSingles();
   }
-  
+
   if(keyPressed && key == 'p'){
     println("keypressed p");
     printGrid();

@@ -1,5 +1,5 @@
 //this is Sherlock, a sudoku solving machine 
-
+import java.util.Arrays;
 void sherlock(){
   while(!complete()){
     singles();
@@ -162,6 +162,10 @@ int instances(int val){
 }
 
 int[] options(int i, int j){
+    if( i >= cols || j >= rows){
+        int [] zero = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        return zero;
+    }
     //return the possible options for a given cell
     int[] options = { 1, 2, 3, 4, 5, 6, 7, 8, 9 }; //initialize a tally of numbers 1- 9
     int numOptions = 9; //number of options remaining
@@ -396,7 +400,7 @@ void dualPairs(){
                 for (int it = 0; it < rows; it++){
                     if( it != i ){
                         int [] curr = options(it,j);
-                        if( curr == options){
+                        if( Arrays.equals(curr, options)){
                             //found a dual pair
                             fi = it;
                             fj = j;
@@ -410,7 +414,7 @@ void dualPairs(){
                     for (int jt = 0; jt < cols; jt++){
                         if( jt != j){
                             int [] curr = options(i,jt);
-                            if( curr == options){
+                            if(Arrays.equals(curr, options)){
                                 //found a dual pair
                                 fi = i;
                                 fj = jt;
@@ -428,7 +432,7 @@ void dualPairs(){
                             if((it != i && j!= j) && currBox == getBox(i,j)){
                                 //iterate through the cells in the same box
                                 int [] curr = options(it,jt);
-                                if( curr == options){
+                                if( Arrays.equals(curr, options)){
                                     //found a dual pair
                                     fi = it;
                                     fj = jt;
