@@ -23,7 +23,7 @@ void setup() {
     }
   }
 
-  gridTest5();
+  gridTest4();
   
 }
 
@@ -54,6 +54,7 @@ void draw(){
     println("keypressed ö: restarting");
     setup();
   }
+  
   if(keyPressed && key == 'S'){
     println("keypressed S: running sherlock");
     sherlock();
@@ -96,14 +97,14 @@ void keyPressed(){
   if( keyCode == BACKSPACE ){
     grid[currI][currJ].setVal(0); //undo last addition
   }
-  
+
 }
 
 void showGrid(){
     for (int i = 0; i < cols; i++) {
         for (int j = 0; j < rows; j++) {
-            // show each object
-            grid[i][j].show();
+          // show each object
+          grid[i][j].show();
         }
     }
 }
@@ -238,4 +239,35 @@ void setGrid(int [][] array){
        grid[i][j].setDefault();
     }
   }
+}
+
+void printGrid(){
+  /* Print the puzzle state in the following format
+      
+    { 6, 0, 0, 0, 0, 0, 8, 0, 0 },
+    { 0, 0, 3, 0, 0, 0, 7, 2, 0 },
+    { 1, 0, 0, 0, 0, 6, 0, 4, 0 },
+    { 0, 8, 6, 0, 9, 7, 0, 0, 4 },
+    { 0, 0, 9, 0, 0, 2, 0, 0, 0 },
+    { 0, 0, 4, 5, 0, 8, 9, 0, 0 },
+    { 0, 0, 1, 0, 0, 5, 0, 7, 0 },
+    { 0, 0, 5, 0, 3, 4, 0, 0, 0 },
+    { 0, 0, 7, 0, 0, 0, 0, 3, 8 }
+    };
+
+  //*/
+  println();
+  for (int j = 0; j < rows; j++) {
+    print("{ ");
+    for (int i = 0; i < cols; i++) {
+      if( i != 0 && i != cols)
+        print(", ");
+      print( grid[i][j].val());
+    }
+    print(" }");
+    if( j != rows-1 )
+      println(",");
+    else println();
+  }
+  println("};");
 }
