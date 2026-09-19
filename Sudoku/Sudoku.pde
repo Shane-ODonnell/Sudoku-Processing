@@ -101,12 +101,12 @@ void keyPressed(){
 }
 
 void showGrid(){
-    for (int i = 0; i < cols; i++) {
-        for (int j = 0; j < rows; j++) {
-          // show each object
-          grid[i][j].show();
-        }
-    }
+  for (int i = 0; i < cols; i++) {
+      for (int j = 0; j < rows; j++) {
+        // show each object
+        grid[i][j].show();
+      }
+  }
 }
 
 void refresh(){
