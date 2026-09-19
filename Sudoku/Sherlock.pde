@@ -1,10 +1,12 @@
 //this is Sherlock, a sudoku solving machine 
 
 void sherlock(){
-  while(!complete()){
+ int it = 0;
+ while(!complete() && it < 50){
     singles();
-    hiddenSingles();
+    //hiddenSingles();
     finishGrid();
+    it++;
   }
 }
 
@@ -31,15 +33,16 @@ void singles(){
             for(int it = 0; it < options.length; it++){
                 if(options[it] != 0)
                     numOptions++;
-                //
+                //count the number of options in the array
             }
 
             if( numOptions == 1){
                 //if there is only one option left, fill it in
                 for( int k = 0; k < options.length; k++){
                     if( options[k] != 0 && grid[i][j].value == 0){
-                        println("setting " + i + ", " + j + " to be " + k);
+                        println("setting " + i + ", " + j + " to be " + options[k]);
                         grid[i][j].setVal(options[k]);
+                        
                         // now this column is solved
                         k = options.length; // break out of this loop
                         j = cols;
@@ -328,6 +331,7 @@ void finishRow(){
         }
     }//close for (i)
 }
+
 void finishCol(){
     //same idea as finishGrid(). but instead of looking at the other cells in the box look at the row
     //TODO
