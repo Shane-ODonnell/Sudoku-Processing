@@ -550,8 +550,7 @@ void dualPairsTargeted(int i, int j, boolean debugPrint){
                                                 grid[r][c].setVal(val1);        // should be solved now
                                                 println("passed gate 7" );
                                                 return;
-                                            }
-                                        
+                                            }                                        
                                         }
                                     }
                                 }
