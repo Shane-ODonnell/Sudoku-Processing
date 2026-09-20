@@ -80,7 +80,7 @@ void mousePressed() {
         editing = true;
         grid[i][j].editing = true;
         grid[i][j].printOptions();
-        dualPairsTargeted(i, j, true);
+        //dualPairsTargeted(i, j, true);
         i = cols; //break out of both loops
         j = rows;
       }

@@ -501,56 +501,57 @@ void dualPairsTargeted(int i, int j, boolean debugPrint){
                                     boolean first = true;
                                     if(grid[r][c].getNumOptions() < 4){
                                         if( (r == i && localNature % 2 != 0) || (c == j && localNature % 2 == 0 && localNature != 4) || ( getBox(r,c) == currBox && localNature >= 4) ){
-                                            //if( !(r != i || r != it) && !(c != j || c != jt) ){
-                                                
-                                                if(debugPrint){println("passed gate 5" );}
-                                                int val1 = grid[i][j].oVal1;
-                                                int val2 = grid[i][j].oVal2;
-                                                for(int iterator = 0; iterator < grid[r][c].notes.length; iterator++){
-                                                    int curr = grid[r][c].notes[iterator]; if(debugPrint){println("curr is " + curr );}
-                                                    if(curr == val1 || curr == val2){
-                                                        
-                                                        int location;
-                                                        if (!first){
-                                                            location = getIndex(val1, grid[r][c].getNotes());                                                                
-                                                            first = false;
-                                                            if(debugPrint){println("passed gate 51" );}
-                                                        }
-                                                        else{
-                                                            location = getIndex(val2, grid[r][c].getNotes());
-                                                            if(debugPrint){println("passed gate 52" );}
-                                                        }
-
-                                                        if(debugPrint){println("Location " + location );}
-                                                        if(debugPrint){
-                                                            int iTemp = it+1;
-                                                            int jTemp = jt+1;
-                                                            println("(it , jt) = (" + iTemp + " , " + jTemp + ")");
-                                                            iTemp = i+1;
-                                                            jTemp = j+1;
-                                                            println("( i , j ) = (" + iTemp + " , " + jTemp + ")");
-                                                            iTemp = r+1;
-                                                            jTemp = c+1;
-                                                            println("( r , c ) = (" + iTemp + " , " + jTemp + ")");
-                                                            println("----------------------------------");
-                                                            //println("(" + iTemp + " , " + jTemp + ") | " + grid[it][jt].getNumOptions());
-                                                        }
-
-                                                        if(location != -1 && !( (r == i && c == j) || (r == it && c == jt) ) ) {
-                                                            grid[r][c].notes[location] = 0;
-                                                            if(debugPrint){println("% passed gate 6" );}
-                                                        }
-                                                        else if(debugPrint){println(" one of the pair cells: Skipped" );}
+                                        
+                                            
+                                            if(debugPrint){println("passed gate 5" );}
+                                            
+                                            int val1 = grid[i][j].oVal1;
+                                            int val2 = grid[i][j].oVal2;
+                                            for(int iterator = 0; iterator < grid[r][c].notes.length; iterator++){
+                                                int curr = grid[r][c].notes[iterator]; if(debugPrint){println("curr is " + curr );}
+                                                if(curr == val1 || curr == val2){
+                                                    
+                                                    int location;
+                                                    if (!first){
+                                                        location = getIndex(val1, grid[r][c].getNotes());                                                                
+                                                        first = false;
+                                                        if(debugPrint){println("passed gate 51" );}
                                                     }
-                                                }
+                                                    else{
+                                                        location = getIndex(val2, grid[r][c].getNotes());
+                                                        if(debugPrint){println("passed gate 52" );}
+                                                    }
 
-                                                if(grid[r][c].getNumOptions() == 1){
-                                                    val1 = grid[r][c].oVal1;
-                                                    grid[r][c].setVal(val1);        // should be solved now
-                                                    if(debugPrint){println("passed gate 7" );}
-                                                    return;
+                                                    if(debugPrint){println("Location " + location );}
+                                                    if(debugPrint){
+                                                        int iTemp = it+1;
+                                                        int jTemp = jt+1;
+                                                        println("(it , jt) = (" + iTemp + " , " + jTemp + ")");
+                                                        iTemp = i+1;
+                                                        jTemp = j+1;
+                                                        println("( i , j ) = (" + iTemp + " , " + jTemp + ")");
+                                                        iTemp = r+1;
+                                                        jTemp = c+1;
+                                                        println("( r , c ) = (" + iTemp + " , " + jTemp + ")");
+                                                        println("----------------------------------");
+                                                        //println("(" + iTemp + " , " + jTemp + ") | " + grid[it][jt].getNumOptions());
+                                                    }
+
+                                                    if(location != -1 && !( (r == i && c == j) || (r == it && c == jt) ) ) {
+                                                        grid[r][c].notes[location] = 0;
+                                                        if(debugPrint){println("% passed gate 6" );}
+                                                    }
+                                                    else if(debugPrint){println(" one of the pair cells: Skipped" );}
                                                 }
-                                            //}
+                                            }
+
+                                            if(grid[r][c].getNumOptions() == 1){
+                                                val1 = grid[r][c].oVal1;
+                                                grid[r][c].setVal(val1);        // should be solved now
+                                                println("passed gate 7" );
+                                                return;
+                                            }
+                                        
                                         }
                                     }
                                 }
