@@ -512,12 +512,12 @@ void dualPairsTargeted(int i, int j, boolean debugPrint){
                                                         
                                                         int location;
                                                         if (!first){
-                                                            location = grid[r][c].getIndex(val1);                                                                
+                                                            location = getIndex(val1, grid[r][c].getNotes());                                                                
                                                             first = false;
                                                             if(debugPrint){println("passed gate 51" );}
                                                         }
                                                         else{
-                                                            location = grid[r][c].getIndex(val2);  
+                                                            location = getIndex(val2, grid[r][c].getNotes());
                                                             if(debugPrint){println("passed gate 52" );}
                                                         }
 

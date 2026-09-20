@@ -125,17 +125,6 @@ class Cell {
     return notes;
   }
 
-  int getIndex(int val){
-    //return location of val where/if exists in the array
-    for(int i = 0; i < notes.length; i++){
-      if(notes[i] == val){
-        return i;
-      }
-    }
-    
-    return -1; //if val doesnt exist in the array
-}
-
 }// close class Cell
 
 int getX(int i){
