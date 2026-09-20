@@ -2,21 +2,13 @@
 
 void sherlock(){
     int it = 0;
+    
     while(!complete() && it < 50){
+        dualPairs();
         singles();
         //hiddenSingles();
         finishGrid();
         it++;
-    }
-    if(!complete()){
-        it = 0;
-        dualPairs();
-        while(!complete() && it < 50){
-            singles();
-            //hiddenSingles();
-            finishGrid();
-            it++;
-        }
     }
 }
 
