@@ -6,12 +6,18 @@ class Cell {
   int w;    // width of cell
   boolean given = false;
   boolean editing = false;
+  int[] notes;
+  int oVal1,oVal2;
+  int I,J;
+  boolean annotated = false;
 
   //Cell constructor
   Cell(int i, int j){
     //Set the dimensions that the cell occupies on screen
     x = getX(i);
     y = getX(j);
+    I = i;
+    J = j;
     w = 80;
   }
 
@@ -52,6 +58,83 @@ class Cell {
   int val(){
     return value;
   }
+
+  void setNotes(){
+    notes = options(I,J);
+    annotated = true;
+    getNumOptions();
+  }
+
+  int getNumOptions(){
+    //
+    int count = 0;
+    if(value == 0){
+      for(int i = 0; i < notes.length; i++){
+        if(notes[i] != 0)
+          count++;
+      }
+    }
+    else return 11; //like -1 but more useful to me
+
+    if(count <= 2){
+      boolean first = true;
+      for(int i = 0; i < notes.length; i++){
+        if(notes[i] != 0){
+          if(first){
+            first = false;
+            oVal1 = notes[i];
+          }
+          else 
+            oVal2 = notes[i];
+        }
+      }
+    }
+
+    return count;
+  }
+  
+  void printOptions(){
+    if(annotated){
+      int iTemp = I + 1;
+      int jTemp = J + 1;
+      print( "| " + iTemp + " , " + jTemp + " | (" + getNumOptions() + ") | ");
+      for(int i = 0; i < notes.length; i++){
+        int curr = notes[i];
+        if(curr != 0){
+          print( " " + curr );
+        }
+      }
+      println();
+    }
+  }
+
+  boolean compareNotes(int[] input){
+    if(input.length == notes.length){
+      //
+      for(int i = 0; i < notes.length; i++){
+        //
+        if(notes[i] != input[i])
+          return false;
+      }
+    
+    }
+    return true;
+  }
+
+  int[] getNotes(){
+    return notes;
+  }
+
+  int getIndex(int val){
+    //return location of val where/if exists in the array
+    for(int i = 0; i < notes.length; i++){
+      if(notes[i] == val){
+        return i;
+      }
+    }
+    
+    return -1; //if val doesnt exist in the array
+}
 
 }// close class Cell
 

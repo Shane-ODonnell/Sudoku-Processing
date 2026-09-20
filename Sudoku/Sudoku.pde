@@ -23,8 +23,8 @@ void setup() {
     }
   }
 
-  gridTest4();
-  
+  gridTest5();
+  surface.setLocation(50, 25);
 }
 
 void draw(){
@@ -71,13 +71,16 @@ void mousePressed() {
       if( grid[i][j].mouseOver()){
         //println("Mouse is over cell " + i + ", " + j);
         int box = getBox(i,j);
-        println( "Cell is in box:  " + box);
+        //println( "Cell is in box:  " + box);
+        
         //store this as the current editing cell;
         grid[currI][currJ].editing = false;
         currI = i;
         currJ = j;
         editing = true;
         grid[i][j].editing = true;
+        grid[i][j].printOptions();
+        dualPairsTargeted(i, j, true);
         i = cols; //break out of both loops
         j = rows;
       }
@@ -215,17 +218,27 @@ void gridTest5(){
   //let grid equal to a presaved puzzle for testing
   //Test 5 was taken from https://sudoku.com/evil/
 
-  int[][] Test = { 
-  { 6, 0, 0, 0, 0, 0, 8, 0, 0 },
-  { 0, 0, 3, 0, 0, 0, 7, 2, 0 },
-  { 1, 0, 0, 0, 0, 6, 0, 4, 0 },
-  { 0, 8, 6, 0, 9, 7, 0, 0, 4 },
-  { 0, 0, 9, 0, 0, 2, 0, 0, 0 },
-  { 0, 0, 4, 5, 0, 8, 9, 0, 0 },
-  { 0, 0, 1, 0, 0, 5, 0, 7, 0 },
-  { 0, 0, 5, 0, 3, 4, 0, 0, 0 },
-  { 0, 0, 7, 0, 0, 0, 0, 3, 8 }
-  };
+  int[][] Test = {
+
+  { 5, 0, 0, 4, 0, 0, 0, 9, 0 },
+
+  { 0, 4, 0, 9, 1, 0, 8, 6, 7 },
+
+  { 0, 0, 0, 6, 0, 0, 0, 0, 4 },
+
+  { 0, 1, 9, 0, 0, 0, 0, 5, 0 },
+
+  { 0, 0, 0, 5, 0, 8, 6, 0, 0 },
+
+  { 6, 0, 5, 0, 0, 2, 0, 0, 0 },
+
+  { 0, 2, 0, 0, 0, 0, 4, 0, 5 },
+
+  { 0, 0, 0, 0, 0, 0, 0, 7, 0 },
+
+  { 0, 0, 3, 2, 5, 6, 0, 0, 0 }
+
+};
 
   setGrid(Test);
 }

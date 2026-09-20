@@ -1,13 +1,23 @@
 //this is Sherlock, a sudoku solving machine 
 
 void sherlock(){
- int it = 0;
- while(!complete() && it < 50){
-    singles();
-    //hiddenSingles();
-    finishGrid();
-    it++;
-  }
+    int it = 0;
+    while(!complete() && it < 50){
+        singles();
+        //hiddenSingles();
+        finishGrid();
+        it++;
+    }
+    if(!complete()){
+        it = 0;
+        dualPairs();
+        while(!complete() && it < 50){
+            singles();
+            //hiddenSingles();
+            finishGrid();
+            it++;
+        }
+    }
 }
 
 boolean complete(){
@@ -398,4 +408,157 @@ int getIndex(int val, int [] array){
     }
     
     return -1; //if val doesnt exist in the array
+}
+
+void addNotes(){
+    //add notes to every cell
+    for(int i = 0; i < rows; i++){
+        for(int j = 0; j < rows; j++){
+            if(grid[i][j].val() == 0)
+                grid[i][j].setNotes();
+        }
+    }
+
+}
+
+void dualPairs(){
+    addNotes();
+    //now I need to look at every cell and compare it to every other cell
+    //if i find two identical arrays of 2 options in a shared block/row/col
+    // remove those two values from the other local arrays
+    //if that creates an array with only one option, fill it in and move on
+    
+    
+    for(int i = 0; i < rows; i++){
+        for(int j = 0; j < rows; j++){
+            dualPairsTargeted(i, j, false);
+        }
+    }
+}
+
+void dualPairsTargeted(int i, int j, boolean debugPrint){
+    if(debugPrint){
+        int iTemp = i + 1; int jTemp = j + 1;
+        //println("Running dp on cell (" + iTemp + " , " + jTemp + ") "); 
+    }
+    if( grid[i][j].getNumOptions() == 2){
+        //go thru all the other local cells for another 2 option array
+        if(debugPrint){
+            //println("passed gate 1 "); 
+        }
+        int currBox = getBox(i,j);
+        for(int it = 0; it < rows; it++){
+            for(int jt = 0; jt < rows; jt++){
+                if(debugPrint){
+                    int iTemp = it+1;
+                    int jTemp = jt+1;
+                    //println("passed gate 2 @ (" + iTemp + " , " + jTemp + ") with localscore: " + localNature);
+                    if( grid[it][jt].val() == 0 ){
+                        //println("(" + iTemp + " , " + jTemp + ") | " + grid[it][jt].getNumOptions());
+                    }
+                }
+                if( grid[it][jt].getNumOptions() == 2 && !(it == i && jt == j) ){
+                    //filter for only related / local cells (common row,col,block)
+                    //so far we have only filtered for the exact cell
+                    
+                    int localNature = 0;
+                    if (i == it)
+                        localNature++;      //lsb
+                    else if (j == jt)
+                        localNature += 2;
+                    if (currBox == getBox(it,jt)){
+                        localNature += 4;  //MSB
+                    }
+                    
+                    if(debugPrint){
+                        int iTemp = it+1;
+                        int jTemp = jt+1;
+                        //println("passed gate 2 @ (" + iTemp + " , " + jTemp + ") with localscore: " + localNature);
+                        //println("(" + iTemp + " , " + jTemp + ") | " + grid[it][jt].getNumOptions());
+                    }
+
+                    if( localNature > 0 ){ //if the row column or box match 
+                        // grid[i][j] and grid[it][jt] both have only 2 possible options
+                        // they are also are in the same neighbourhood
+
+                        if(debugPrint){                            
+                            println("passed gate 3 with localscore: " + localNature);
+                        }
+
+                        if(grid[i][j].compareNotes(grid[it][jt].notes)){
+                            if(debugPrint){
+                                int iTemp = it+1;
+                                int jTemp = jt+1;
+                                println("Match found in cell: " + iTemp + " , " + jTemp); 
+                            }
+                            //identical pair options between 2 local arrays
+                            //now i need to check the other empty tiles in the local area
+                                //if they have one of the pair values 
+                                //remove them from that array and hopefully that will create a new single
+                            
+                            for(int r = 0; r < rows; r++){
+                                for(int c = 0; c < rows; c++){
+                                    boolean first = true;
+                                    if(grid[r][c].getNumOptions() < 4){
+                                        if( (r == i && localNature % 2 != 0) || (c == j && localNature % 2 == 0 && localNature != 4) || ( getBox(r,c) == currBox && localNature >= 4) ){
+                                            //if( !(r != i || r != it) && !(c != j || c != jt) ){
+                                                
+                                                if(debugPrint){println("passed gate 5" );}
+                                                int val1 = grid[i][j].oVal1;
+                                                int val2 = grid[i][j].oVal2;
+                                                for(int iterator = 0; iterator < grid[r][c].notes.length; iterator++){
+                                                    int curr = grid[r][c].notes[iterator]; if(debugPrint){println("curr is " + curr );}
+                                                    if(curr == val1 || curr == val2){
+                                                        
+                                                        int location;
+                                                        if (!first){
+                                                            location = grid[r][c].getIndex(val1);                                                                
+                                                            first = false;
+                                                            if(debugPrint){println("passed gate 51" );}
+                                                        }
+                                                        else{
+                                                            location = grid[r][c].getIndex(val2);  
+                                                            if(debugPrint){println("passed gate 52" );}
+                                                        }
+
+                                                        if(debugPrint){println("Location " + location );}
+                                                        if(debugPrint){
+                                                            int iTemp = it+1;
+                                                            int jTemp = jt+1;
+                                                            println("(it , jt) = (" + iTemp + " , " + jTemp + ")");
+                                                            iTemp = i+1;
+                                                            jTemp = j+1;
+                                                            println("( i , j ) = (" + iTemp + " , " + jTemp + ")");
+                                                            iTemp = r+1;
+                                                            jTemp = c+1;
+                                                            println("( r , c ) = (" + iTemp + " , " + jTemp + ")");
+                                                            println("----------------------------------");
+                                                            //println("(" + iTemp + " , " + jTemp + ") | " + grid[it][jt].getNumOptions());
+                                                        }
+
+                                                        if(location != -1 && !( (r == i && c == j) || (r == it && c == jt) ) ) {
+                                                            grid[r][c].notes[location] = 0;
+                                                            if(debugPrint){println("% passed gate 6" );}
+                                                        }
+                                                        else if(debugPrint){println(" one of the pair cells: Skipped" );}
+                                                    }
+                                                }
+
+                                                if(grid[r][c].getNumOptions() == 1){
+                                                    val1 = grid[r][c].oVal1;
+                                                    grid[r][c].setVal(val1);        // should be solved now
+                                                    if(debugPrint){println("passed gate 7" );}
+                                                    return;
+                                                }
+                                            //}
+                                        }
+                                    }
+                                }
+                            }                        
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
