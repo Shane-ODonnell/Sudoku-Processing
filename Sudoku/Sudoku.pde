@@ -23,7 +23,7 @@ void setup() {
     }
   }
 
-  gridTest6();
+  gridTest5();
   surface.setLocation(50, 25);
 }
 
@@ -47,11 +47,16 @@ void draw(){
 
   if(keyPressed && key == 'g'){
     println("keypressed g");
-    finishGrid();
+    finishGrid(); // notcing bug: Sometimes it does all it can do and sometimes it takes running it twice
   }
 
-  if(keyPressed && key == 'ö'){
-    println("keypressed ö: restarting");
+  if(keyPressed && key == 'd'){
+    println("keypressed d");
+    dualPairs();
+  }
+
+  if(keyPressed && key == 'c'){
+    println("keypressed c: restarting");
     setup();
   }
   
@@ -244,7 +249,7 @@ void gridTest5(){
   { 0, 0, 0, 5, 0, 0, 0, 0, 0 }
   }; //passed
 
-  setGrid(Test2);
+  setGrid(Test);
 }
 
 void gridTest6(){
