@@ -23,7 +23,7 @@ void setup() {
     }
   }
 
-  gridTest5();
+  gridTest6();
   surface.setLocation(50, 25);
 }
 
@@ -217,6 +217,7 @@ void gridTest5(){
 
   //let grid equal to a presaved puzzle for testing
   //Test 5 was taken from https://sudoku.com/evil/
+  //passed using new function: DualPairs
 
   int[][] Test = {
 
@@ -244,6 +245,28 @@ void gridTest5(){
   }; //passed
 
   setGrid(Test2);
+}
+
+void gridTest6(){
+  //let grid equal to a presaved puzzle for testing
+  //Test 4 was taken from https://sudoku.com/expert/
+  //passed successfully using finishGrid() + finishRow() in sherlock()
+
+  int[][] Test = {
+  { 3, 0, 0, 0, 4, 9, 0, 0, 0 },
+  { 0, 0, 0, 6, 0, 0, 5, 0, 1 },
+  { 7, 5, 2, 0, 0, 1, 0, 0, 0 },
+  { 0, 0, 1, 0, 0, 0, 7, 0, 0 },
+  { 5, 0, 0, 3, 9, 6, 0, 0, 0 },
+  { 0, 0, 8, 1, 5, 0, 0, 9, 6 },
+  { 0, 0, 3, 0, 1, 0, 0, 6, 0 },
+  { 0, 0, 4, 0, 0, 0, 1, 0, 0 },
+  { 0, 0, 0, 0, 2, 8, 0, 0, 0 }
+  };
+
+
+  setGrid(Test);
+
 }
 
 void setGrid(int [][] array){
