@@ -7,7 +7,6 @@ boolean editing = false;
 
 PImage background;
 
-
 Cell[][] grid; //stores the value of every cell in the puzzle
 
 void setup() {
@@ -24,8 +23,8 @@ void setup() {
     }
   }
 
-  gridTest3();
-  
+  gridTest5();
+  surface.setLocation(50, 25);
 }
 
 void draw(){
@@ -40,9 +39,30 @@ void draw(){
         singles();
     //*/
   }
+
   if(keyPressed && key == 'h'){
     println("keypressed h");
     hiddenSingles();
+  }
+
+  if(keyPressed && key == 'g'){
+    println("keypressed g");
+    finishGrid(); // notcing bug: Sometimes it does all it can do and sometimes it takes running it twice
+  }
+
+  if(keyPressed && key == 'd'){
+    println("keypressed d");
+    dualPairs();
+  }
+
+  if(keyPressed && key == 'c'){
+    println("keypressed c: restarting");
+    setup();
+  }
+  
+  if(keyPressed && key == 'S'){
+    println("keypressed S: running sherlock");
+    sherlock();
   }
  
 }
@@ -56,11 +76,16 @@ void mousePressed() {
       if( grid[i][j].mouseOver()){
         //println("Mouse is over cell " + i + ", " + j);
         int box = getBox(i,j);
-        println( "Cell is in box:  " + box);
+        //println( "Cell is in box:  " + box);
+        
         //store this as the current editing cell;
+        grid[currI][currJ].editing = false;
         currI = i;
         currJ = j;
         editing = true;
+        grid[i][j].editing = true;
+        grid[i][j].printOptions();
+        //dualPairsTargeted(i, j, true);
         i = cols; //break out of both loops
         j = rows;
       }
@@ -74,28 +99,28 @@ void keyPressed(){
   if( 49 <= key && key <= 57 && editing){
     grid[currI][currJ].setVal(key - 48); //convert char to int
     editing = false;
+    grid[currI][currJ].editing = false;
   }
 
   if( keyCode == BACKSPACE ){
     grid[currI][currJ].setVal(0); //undo last addition
   }
-  
+
 }
 
 void showGrid(){
-    for (int i = 0; i < cols; i++) {
-        for (int j = 0; j < rows; j++) {
-            // show each object
-            grid[i][j].show();
-        }
-    }
+  for (int i = 0; i < cols; i++) {
+      for (int j = 0; j < rows; j++) {
+        // show each object
+        grid[i][j].show();
+      }
+  }
 }
 
 void refresh(){
   image(background, 0, 0, width, height);
   showGrid();
 }
-
 
 void gridTest1(){
   //let grid equal to a presaved puzzle for testing
@@ -140,7 +165,7 @@ void gridTest2(){
 void gridTest3(){
   //let grid equal to a presaved puzzle for testing
   //Test 3 was taken from https://sudoku.com/hard/
-  
+  //passed successfully using finishGrid()
 
   int[][] Test = { 
   { 9, 0, 2, 0, 6, 3, 0, 8, 0 },
@@ -158,6 +183,97 @@ void gridTest3(){
 
 }
 
+void gridTest4(){
+  //let grid equal to a presaved puzzle for testing
+  //Test 4 was taken from https://sudoku.com/expert/
+  //passed successfully using finishGrid() + finishRow() in sherlock()
+
+  int[][] Test = { 
+  { 0, 5, 0, 4, 9, 0, 6, 0, 7 },
+  { 1, 0, 0, 0, 2, 6, 0, 9, 0 },
+  { 0, 9, 0, 0, 0, 8, 0, 0, 0 },
+  { 0, 0, 0, 1, 5, 9, 3, 2, 6 },
+  { 0, 0, 0, 0, 0, 0, 0, 0, 9 },
+  { 9, 0, 5, 0, 0, 0, 0, 0, 1 },
+  { 0, 0, 0, 0, 8, 7, 0, 6, 3 },
+  { 2, 7, 0, 6, 0, 3, 0, 0, 0 },
+  { 0, 6, 0, 0, 0, 0, 7, 1, 0 }
+  };
+
+  int[][] Test2 = { 
+  { 0, 0, 0, 3, 0, 0, 0, 5, 0 },
+  { 5, 0, 0, 8, 7, 0, 4, 0, 0 },
+  { 0, 8, 6, 0, 5, 1, 0, 9, 0 },
+  { 0, 0, 5, 0, 0, 0, 0, 0, 0 },
+  { 7, 2, 8, 5, 9, 4, 0, 0, 0 },
+  { 0, 0, 4, 0, 0, 0, 5, 0, 9 },
+  { 0, 0, 0, 2, 0, 8, 7, 6, 0 },
+  { 8, 0, 2, 6, 3, 0, 0, 0, 0 },
+  { 4, 6, 0, 0, 0, 0, 0, 8, 0 }
+  };
+  
+  //test2 passed succesfully using finishGrid() + finishRow() in sherlock()
+
+  setGrid(Test2);
+
+}
+
+void gridTest5(){
+
+  //let grid equal to a presaved puzzle for testing
+  //Test 5 was taken from https://sudoku.com/evil/
+  //passed using new function: DualPairs
+
+  int[][] Test = {
+
+  { 5, 0, 0, 4, 0, 0, 0, 9, 0 },
+  { 0, 4, 0, 9, 1, 0, 8, 6, 7 },
+  { 0, 0, 0, 6, 0, 0, 0, 0, 4 },
+  { 0, 1, 9, 0, 0, 0, 0, 5, 0 },
+  { 0, 0, 0, 5, 0, 8, 6, 0, 0 },
+  { 6, 0, 5, 0, 0, 2, 0, 0, 0 },
+  { 0, 2, 0, 0, 0, 0, 4, 0, 5 },
+  { 0, 0, 0, 0, 0, 0, 0, 7, 0 },
+  { 0, 0, 3, 2, 5, 6, 0, 0, 0 }};
+  //passed
+
+  int[][] Test2 = {
+  { 0, 0, 4, 0, 0, 0, 0, 0, 2 },
+  { 3, 5, 7, 0, 8, 0, 0, 9, 0 },
+  { 8, 0, 2, 0, 0, 0, 0, 0, 0 },
+  { 0, 0, 0, 9, 4, 5, 0, 0, 0 },
+  { 0, 0, 0, 0, 0, 6, 0, 0, 4 },
+  { 9, 0, 0, 0, 0, 8, 2, 0, 7 },
+  { 0, 0, 0, 0, 0, 9, 0, 6, 0 },
+  { 5, 0, 0, 3, 6, 0, 4, 0, 0 },
+  { 0, 0, 0, 5, 0, 0, 0, 0, 0 }
+  }; //passed
+
+  setGrid(Test);
+}
+
+void gridTest6(){
+  //let grid equal to a presaved puzzle for testing
+  //Test 4 was taken from https://sudoku.com/expert/
+  //passed successfully using finishGrid() + finishRow() in sherlock()
+
+  int[][] Test = {
+  { 3, 0, 0, 0, 4, 9, 0, 0, 0 },
+  { 0, 0, 0, 6, 0, 0, 5, 0, 1 },
+  { 7, 5, 2, 0, 0, 1, 0, 0, 0 },
+  { 0, 0, 1, 0, 0, 0, 7, 0, 0 },
+  { 5, 0, 0, 3, 9, 6, 0, 0, 0 },
+  { 0, 0, 8, 1, 5, 0, 0, 9, 6 },
+  { 0, 0, 3, 0, 1, 0, 0, 6, 0 },
+  { 0, 0, 4, 0, 0, 0, 1, 0, 0 },
+  { 0, 0, 0, 0, 2, 8, 0, 0, 0 }
+  };
+
+
+  setGrid(Test);
+
+}
+
 void setGrid(int [][] array){
   for (int i = 0; i < cols; i++) {
     for (int j = 0; j < rows; j++) {
@@ -167,4 +283,35 @@ void setGrid(int [][] array){
        grid[i][j].setDefault();
     }
   }
+}
+
+void printGrid(){
+  /* Print the puzzle state in the following format
+      
+    { 6, 0, 0, 0, 0, 0, 8, 0, 0 },
+    { 0, 0, 3, 0, 0, 0, 7, 2, 0 },
+    { 1, 0, 0, 0, 0, 6, 0, 4, 0 },
+    { 0, 8, 6, 0, 9, 7, 0, 0, 4 },
+    { 0, 0, 9, 0, 0, 2, 0, 0, 0 },
+    { 0, 0, 4, 5, 0, 8, 9, 0, 0 },
+    { 0, 0, 1, 0, 0, 5, 0, 7, 0 },
+    { 0, 0, 5, 0, 3, 4, 0, 0, 0 },
+    { 0, 0, 7, 0, 0, 0, 0, 3, 8 }
+    };
+
+  //*/
+  println();
+  for (int j = 0; j < rows; j++) {
+    print("{ ");
+    for (int i = 0; i < cols; i++) {
+      if( i != 0 && i != cols)
+        print(", ");
+      print( grid[i][j].val());
+    }
+    print(" }");
+    if( j != rows-1 )
+      println(",");
+    else println();
+  }
+  println("};");
 }
